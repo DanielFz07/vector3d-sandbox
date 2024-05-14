@@ -1,0 +1,85 @@
+<div id=color_menu>
+    <form id="color_menu_form" class="hide">
+        <h1>Color</h1>
+        <div class=columns>
+            <input type="text" id="color_value" name="color_value" placeholder="0xFFFFFF" required>        </div>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+<style>
+    body, div, form, input
+  	{ 
+		outline: none;
+		font-family: Roboto, Arial, sans-serif;
+		font-size: 10px;
+		color: #666;
+		line-height: 22px;
+  	}
+	h1
+	{
+		font-size: 1.2em;
+	}
+  	form {
+		width: 17.22rem;
+		height: 2.5rem;
+		padding: 25px;
+		border-radius: 6px;
+		background: #fff;
+		box-shadow: 0 0 8px  #1e1e1e; 
+	}
+	.columns 
+	{
+		display:flex;
+		justify-content:space-between;
+		flex-direction:row;
+		flex-wrap:wrap;
+	}
+	input 
+	{
+		padding: 5px;
+		margin-right: 5px;
+        margin-bottom: 10px;
+		margin-left: 5px;
+      	border: 1px solid #ccc;
+      	border-radius: 3px;
+	}
+	button 
+	{
+		width: 20%;
+		padding: 2%;
+		border: none;
+		border-radius: 5px; 
+		background:  #669999;
+		font-size: 16px;
+		color: #fff;
+		cursor: pointer;
+
+		margin: 5px;
+		position: absolute;
+		top: 50%;
+		left: 37.5%;
+	}
+	input:hover {
+      	border: 1px solid transparent;
+      	box-shadow: 0 0 3px 0  #669999;
+      	color: #669999;
+	}
+	button:hover 
+	{
+      	background:  #a3c2c2;
+	}
+    input
+    {
+        width: 5em;
+        height: 1em;
+    }
+    #color_menu
+    {
+        position: absolute;
+    }
+    .hide 
+    {
+        display: none;
+    }
+</style>

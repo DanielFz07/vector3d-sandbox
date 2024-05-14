@@ -1,0 +1,100 @@
+<div id=cmenu>
+    <form id="cmenu_form" class="hide">
+        <h1>Origen</h1>
+        <div class=columns>
+            <input size="10" type="number" id="o_xvalue" name="o_xvalue" placeholder="X" required>
+            <input type="number" id="o_yvalue" name="o_yvalue" placeholder="Y" required>
+            <input type="number" id="o_zvalue" name="o_zvalue" placeholder="Z" required>
+        </div>
+        <h1>Direccion</h1>
+        <div class=columns>
+            <input type="number" id="d_xvalue" name="d_xvalue" placeholder="X" required>
+            <input type="number" id="d_yvalue" name="d_yvalue" placeholder="Y" required>
+            <input type="number" id="d_zvalue" name="d_zvalue" placeholder="Z" required>
+
+        </div>
+        
+        <h1>Modulo</h1>
+        <div class=columns>
+            <input type="number" id="v_module" name="v_module" placeholder="Longitud" required>
+        </div>
+        <button type="submit">Crear</button>
+    </form>
+</div>
+
+  <style>
+    body, div, form, input
+  	{ 
+		outline: none;
+		font-family: Roboto, Arial, sans-serif;
+		font-size: 10px;
+		color: #666;
+		line-height: 22px;
+  	}
+	h1
+	{
+		font-size: 1.2em;
+	}
+  	form {
+		width: 17.22rem;
+		height: 12rem;
+		padding: 25px;
+		border-radius: 6px;
+		background: #fff;
+		box-shadow: 0 0 8px  #1e1e1e; 
+	}
+	.columns 
+	{
+		display:flex;
+		justify-content:space-between;
+		flex-direction:row;
+		flex-wrap:wrap;
+	}
+	input 
+	{
+		padding: 5px;
+		margin-right: 5px;
+        margin-bottom: 10px;
+		margin-left: 5px;
+      	border: 1px solid #ccc;
+      	border-radius: 3px;
+	}
+	button 
+	{
+		width: 20%;
+		padding: 2%;
+		border: none;
+		border-radius: 5px; 
+		background:  #669999;
+		font-size: 16px;
+		color: #fff;
+		cursor: pointer;
+
+		margin: 5px;
+		position: absolute;
+		top: 13rem;
+		left: 37.5%;
+	}
+	input:hover {
+      	border: 1px solid transparent;
+      	box-shadow: 0 0 3px 0  #669999;
+      	color: #669999;
+	}
+	button:hover 
+	{
+      	background:  #a3c2c2;
+	}
+    input
+    {
+        width: 5em;
+        height: 1em;
+    }
+    #cmenu
+    {
+        position: absolute;
+    }
+    .hide 
+    {
+        display: none;
+    }
+  </style>
