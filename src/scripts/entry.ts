@@ -4,7 +4,7 @@ import { scene, camera, renderer } from './scene'
 
 var primarySelect: THREE.Object3D;
 
-function setPrimarySelect(object: THREE.Object3D)
+function setPrimarySelect(object: any)
 {
   primarySelect = object;
 }
@@ -15,7 +15,7 @@ function getPrimarySelect()
 
 var secundarySelect: THREE.Object3D;
 
-function setSecundarySelect(object: THREE.Object3D)
+function setSecundarySelect(object: any)
 {
   secundarySelect = object;
 }

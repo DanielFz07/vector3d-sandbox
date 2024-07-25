@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { scene, camera } from './scene'
 import { CustomArrowBufferGeometry } from './customarrow';
 import selectVector from './outline';
-import { getPrimarySelect, getSecundarySelect } from './entry';
+import { getPrimarySelect, getSecundarySelect, setPrimarySelect } from './entry';
 
 document.getElementById("cmenu_form")?.addEventListener("submit", (e) =>
 {
@@ -17,12 +17,15 @@ document.getElementById("cmenu_form")?.addEventListener("submit", (e) =>
         d_x: Number(formData.get("d_xvalue")),
         d_y: Number(formData.get("d_yvalue")),
         d_z: Number(formData.get("d_zvalue")),
-        length: Number(formData.get("v_module"))
+        //length: Number(formData.get("v_module"))
     }
 
     const dir = new THREE.Vector3(values.d_x,values.d_y,values.d_z);
     const origin = new THREE.Vector3(values.o_x,values.o_y,values.o_z);
-    const length = values.length;
+    //const length = values.length;
+
+    let sub = new THREE.Vector3;
+    sub.subVectors(dir, origin);
 
     const optionalParams = {
     coneLength: 0.2,
@@ -30,15 +33,15 @@ document.getElementById("cmenu_form")?.addEventListener("submit", (e) =>
     cylLineRadius: 0.1,
     }
 
+    const length = Math.sqrt((Math.pow(sub.x, 2)+Math.pow(sub.y, 2)+Math.pow(sub.z, 2)));
+
     const geometry = new CustomArrowBufferGeometry(dir, origin, length, optionalParams);
     const material = new THREE.MeshPhongMaterial( { color: 0xffaaff } )
     const arrow = new THREE.Mesh(geometry, material);
     scene.add(arrow);
     arrow.material.color.setHex(0xFF00FF);
     arrow.userData.type = "VECTOR3";
-    
-    let sub = new THREE.Vector3;
-    sub.subVectors(arrow.geometry.getDirection(), arrow.geometry.getOrigin());
+
     arrow.userData.vectorValue = sub;
 
     document.getElementById("cmenu_form")?.setAttribute(`style`, `display: none;`);
@@ -57,9 +60,12 @@ document.getElementById("vmenu_form")?.addEventListener("submit", (e) =>
         o_z: Number(formData.get("vo_zvalue")),
         d_x: Number(formData.get("vd_xvalue")),
         d_y: Number(formData.get("vd_yvalue")),
-        d_z: Number(formData.get("vd_zvalue")),
-        length: Number(formData.get("vv_module"))
+        d_z: Number(formData.get("vd_zvalue"))
     }
+
+    let sub = new THREE.Vector3;
+    sub.subVectors(new THREE.Vector3(values.d_x, values.d_y, values.d_z), new THREE.Vector3(values.o_x, values.o_y, values.o_z));
+    const length = Math.sqrt((Math.pow(sub.x, 2)+Math.pow(sub.y, 2)+Math.pow(sub.z, 2)))
 
     const optionalParams = {
         coneLength: 0.2,
@@ -74,8 +80,6 @@ document.getElementById("vmenu_form")?.addEventListener("submit", (e) =>
     getPrimarySelect().geometry.updateGeo()
     getPrimarySelect().userData.box.update();
 
-    let sub = new THREE.Vector3;
-    sub.subVectors(getPrimarySelect().geometry.getDirection(), getPrimarySelect().geometry.getOrigin());
     getPrimarySelect().userData.vectorValue = sub;
 
     document.getElementById("vmenu_form")?.setAttribute(`style`, `display: none;`);
@@ -138,14 +142,13 @@ window.addEventListener('contextmenu', (event) =>
     }
     else if(getPrimarySelect() && getSecundarySelect())
     {
-        document.getElementById("create")?.setAttribute(`style`, `display: none;`);
+        document.getElementById("create")?.setAttribute(`style`, `display: block;`);
         document.getElementById("position")?.setAttribute(`style`, `display: none;`);
         document.getElementById("color")?.setAttribute(`style`, `display: none;`);
         document.getElementById("delete")?.setAttribute(`style`, `display: none;`);
-        document.getElementById("sum")?.setAttribute(`style`, `display: block;`);
+        document.getElementById("add")?.setAttribute(`style`, `display: block;`);
         document.getElementById("sub")?.setAttribute(`style`, `display: block;`);
-        document.getElementById("scale")?.setAttribute(`style`, `display: block;`);
-        document.getElementById("vectorial")?.setAttribute(`style`, `display: block;`);
+    
     }
     else 
     {
@@ -153,10 +156,8 @@ window.addEventListener('contextmenu', (event) =>
         document.getElementById("position")?.setAttribute(`style`, `display: none;`);
         document.getElementById("color")?.setAttribute(`style`, `display: none;`);
         document.getElementById("delete")?.setAttribute(`style`, `display: none;`);
-        document.getElementById("sum")?.setAttribute(`style`, `display: none;`);
+        document.getElementById("add")?.setAttribute(`style`, `display: none;`);
         document.getElementById("sub")?.setAttribute(`style`, `display: none;`);
-        document.getElementById("scale")?.setAttribute(`style`, `display: none;`);
-        document.getElementById("vectorial")?.setAttribute(`style`, `display: none;`);
     }
     
     document.getElementById("rmenu")?.setAttribute(`style`, `position: absolute; display: block; top: ${event.clientY}px; left: ${( event.clientX - 20)}px;`);
@@ -217,6 +218,7 @@ document.getElementById("delete")?.addEventListener("click", (event) =>
 {
     scene.remove(getPrimarySelect().userData.box);
     scene.remove(getPrimarySelect());
+    setPrimarySelect(undefined);
 
     document.getElementById("rmenu")?.setAttribute(`style`, `display: none;`);
 
@@ -224,9 +226,66 @@ document.getElementById("delete")?.addEventListener("click", (event) =>
 
 document.getElementById("add")?.addEventListener("click", (event) => 
 {
-   
+    let a = getPrimarySelect();
+    let b = getSecundarySelect();
+    let add = new THREE.Vector3;
+    add.addVectors(a.userData.vectorValue, b.userData.vectorValue);
+
+    const dir = add;
+    const origin = new THREE.Vector3(0,0,0);
+    const length = Math.sqrt((Math.pow(dir.x, 2)+Math.pow(dir.y, 2)+Math.pow(dir.z, 2)));
+
+    const optionalParams = {
+    coneLength: 0.2,
+    coneRadius: 0.1,
+    cylLineRadius: 0.1,
+    }
+
+    const geometry = new CustomArrowBufferGeometry(dir, origin, length, optionalParams);
+    const material = new THREE.MeshPhongMaterial( { color: 0xffaaff } )
+    const arrow = new THREE.Mesh(geometry, material);
+    scene.add(arrow);
+    arrow.material.color.setHex(0xFF00FF);
+    arrow.userData.type = "VECTOR3";
+    
+    let sub = new THREE.Vector3;
+    sub.subVectors(arrow.geometry.getDirection(), arrow.geometry.getOrigin());
+    arrow.userData.vectorValue = sub;
+
     document.getElementById("rmenu")?.setAttribute(`style`, `display: none;`);
 
+});
+
+document.getElementById("sub")?.addEventListener("click", (event) => 
+    {
+        let a = getPrimarySelect();
+        let b = getSecundarySelect();
+        let subv = new THREE.Vector3;
+        subv.subVectors(a.userData.vectorValue, b.userData.vectorValue);
+    
+        const dir = subv;
+        const origin = new THREE.Vector3(0,0,0);
+        const length = Math.sqrt((Math.pow(dir.x, 2)+Math.pow(dir.y, 2)+Math.pow(dir.z, 2)));
+    
+        const optionalParams = {
+        coneLength: 0.2,
+        coneRadius: 0.1,
+        cylLineRadius: 0.1,
+        }
+    
+        const geometry = new CustomArrowBufferGeometry(dir, origin, length, optionalParams);
+        const material = new THREE.MeshPhongMaterial( { color: 0xffaaff } )
+        const arrow = new THREE.Mesh(geometry, material);
+        scene.add(arrow);
+        arrow.material.color.setHex(0xFF00FF);
+        arrow.userData.type = "VECTOR3";
+        
+        let sub = new THREE.Vector3;
+        sub.subVectors(arrow.geometry.getDirection(), arrow.geometry.getOrigin());
+        arrow.userData.vectorValue = sub;
+    
+        document.getElementById("rmenu")?.setAttribute(`style`, `display: none;`);
+    
 });
 
 function toHex(num: number): string 

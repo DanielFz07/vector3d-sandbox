@@ -50,6 +50,13 @@ let selectVector = (e: Event) =>
 					color = 0xffff00;
 					setSecundarySelect(intersections[ i ].object);
 				}
+				else if(getSecundarySelect() != undefined)
+				{
+					scene.remove(getSecundarySelect().userData.box);
+					color = 0xffff00;
+					setSecundarySelect(intersections[ i ].object);
+				}
+
 				intersections[ i ].object.userData.box = new THREE.BoxHelper( intersections[ i ].object, color );
 				scene.add( intersections[ i ].object.userData.box );
 				intersections[ i ].object.userData.box.matrixAutoUpdate = true;
