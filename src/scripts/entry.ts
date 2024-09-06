@@ -8,7 +8,7 @@ function setPrimarySelect(object: any)
 {
   primarySelect = object;
 }
-function getPrimarySelect()
+function getPrimarySelect() : THREE.Object3D
 {
   return primarySelect;
 }
@@ -24,7 +24,7 @@ function getSecundarySelect()
   return secundarySelect;
 }
 
-const controls = new OrbitControls( camera, renderer.domElement );
+new OrbitControls( camera, renderer.domElement );
 
 camera.position.set( 0, 0, 25 );
 camera.lookAt(0,0,0);

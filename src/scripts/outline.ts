@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import {camera, renderer, scene} from './scene'
+import {camera, scene} from './scene'
 import { getPrimarySelect, getSecundarySelect, setPrimarySelect, setSecundarySelect } from './entry';
 
-let selectVector = (e: Event) =>
+let selectVector = (e: MouseEvent) =>
 {
 	let mousePointer = new THREE.Vector2();
 
@@ -67,7 +67,7 @@ let selectVector = (e: Event) =>
 		}
 	}
 	return 0;
-}	
+}
 
 document.addEventListener('click', selectVector);
 
