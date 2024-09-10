@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 
+export const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementsByClassName("canvas-container")[0].appendChild(renderer.domElement);
+
 export const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xffffff );
 
@@ -19,8 +23,3 @@ light.shadow.camera.bottom = - d;
 light.shadow.camera.far = 1000;
 
 scene.add( light );
-
-
-export const renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementsByClassName("canvas-container")[0].appendChild(renderer.domElement);
