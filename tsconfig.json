@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noUnusedLocals": false
+    "noUnusedLocals": true
   },
   "extends": "astro/tsconfigs/strict"
 }
